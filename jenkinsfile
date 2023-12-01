@@ -38,6 +38,8 @@
                             def result = bat(script: "python CICD\\deploy_script.py ${env.JWT_KEY_FILE}", returnStatus: true)
                             
                             if (result != 0) {
+                                echo "Failed to deploy code. Exit code: ${result}"
+                                currentBuild.result = 'FAILURE'
                                 error("Failed to deploy code. Exit code: ${result}")
                             }
                         }
