@@ -1,0 +1,22 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-16-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <div class="slds-m-bottom_large">
+        <lightning-card  variant="Narrow"  title="Toggle Hide and Seek" icon-name="custom:custom19">
+            <div class="slds-m-around_medium">
+                <button class="slds-button slds-button_brand" onclick={toggleHandler}>
+                    Click me to toggle
+                </button>
+                <template if:false={toggleText}>
+                    <h2>Lets Play</h2>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
+    
+</template>

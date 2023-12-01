@@ -1,0 +1,27 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-14-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <div class="slds-m-bottom_large">
+        <lightning-card title="If:false Directive Demo" icon-name="custom:custom18">
+            <div class="slds-m-around_medium">
+                <button class="slds-button slds-button_success" onclick={hideHandler}>                    
+                Click me to hide the text</button>
+                <template if:false={hideText}>
+                    <h2>Thanks for seeing me</h2>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
+</template>
+
+<!-- if it is in form object 
+
+    <template if:false={hideText.result}>
+        <h2>Thanks for seeing me</h2>
+    </template>
+-->

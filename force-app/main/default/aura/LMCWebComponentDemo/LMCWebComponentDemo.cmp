@@ -1,0 +1,9 @@
+<!-- Implements help to show the page in app builder and all the pages -->
+<aura:component implements = "">
+
+
+<!-- add lightning message channel -->
+<!-- aura id  -->
+
+
+</aura:component>	

@@ -1,0 +1,20 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-14-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <!-- card for if:true demo -->
+    <lightning-card title="if:true demo" icon-name="custom:custom17">
+      <ul class="slds-m-around_medium">
+        <button class="slds-button slds-button_success" onclick={showHandler}>
+          Click me to show the text
+        </button>
+        <template if:true={showText}>
+          <h3>Hurray!! You able to see the hidden text</h3>
+        </template>
+      </ul>
+    </lightning-card>
+  </template>

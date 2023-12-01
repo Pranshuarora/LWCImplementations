@@ -1,0 +1,42 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-11-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+
+<!-- To use normal you can also write as
+    <template>
+        h1>Hi my full name is {name}</h1>
+    </template> 
+-->
+
+<!-- for one way -->
+<template>
+    <lightning-card title="One Way Data Binding Demo" icon-name="custom:custom1">
+        <br>
+        <div class="slds-p-around_medium">
+            <p>My full name is {fullname}</p>
+        </div>
+    </lightning-card>       
+
+    <!-- for two way  -->
+    <lightning-card title="Two Way Data Binding Demo" icon-name="custom:custom2">
+        <br>
+        <div class="slds-p-around_medium">
+            <lightning-input 
+            type='text'
+            name='title' 
+            label='Enter your title'
+            value='{title}' 
+            onkeyup={changeHandler}> 
+            <!-- event and it will be handled in js -->
+            </lightning-input>
+        </div>
+        <div class="slds-p-around_medium">
+            <p>My Title is {title}</p>
+        </div>
+    </lightning-card>
+</template>
+

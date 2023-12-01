@@ -1,0 +1,48 @@
+    pipeline {
+        agent any
+
+        tools {
+            // Define the Git tool
+            git 'Default'
+        }
+
+        stages {
+            stage('Checkout') {
+                steps {
+                    script {
+                        checkout scm
+                    }
+                }
+            }
+
+            stage('Version') {
+                steps {
+                    script {
+                        bat 'python --version'
+                    }
+                }
+            }
+
+            stage('Deploy Code') {
+                steps {
+                    script {
+                        // Use the Python tool installed in Jenkins
+                        def pythonScript = bat(script: 'python -V', returnStatus: true)
+
+                        if (pythonScript != 0) {
+                            error('Python is not configured in Jenkins. Please configure it using the Python plugin.')
+                        }
+                        
+                        // Execute your Python script using the Python tool and withCredentials
+                        withCredentials([file(credentialsId: '49d3f764-e529-4ac4-9b5a-ca06a3ec9caf', variable: 'JWT_KEY_FILE')]) {
+                            def result = bat(script: "python CICD\\deploy_script.py ${env.JWT_KEY_FILE}", returnStatus: true)
+                            
+                            if (result != 0) {
+                                error("Failed to deploy code. Exit code: ${result}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }

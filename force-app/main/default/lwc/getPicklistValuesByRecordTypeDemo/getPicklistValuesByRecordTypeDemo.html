@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="getPicklistValuesByRecordType Demo">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+            name="currencyisocode"
+            label="Shipping Geocode"
+            value={picklistvalue}
+            placeholder="Select"
+            options={ShippingGeocodeAccuracy.values}
+            onchange={handleChange}
+            >
+            </lightning-combobox>
+
+        </div>
+
+    </lightning-card>
+    
+</template>
