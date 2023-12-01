@@ -2,7 +2,6 @@ import os
 import subprocess
 
 BUILD_NUMBER = os.environ.get('BUILD_NUMBER', 'default_build_number')
-RUN_ARTIFACT_DIR = f'tests/{BUILD_NUMBER}'
 SFDC_USERNAME = None  # You can set this variable if needed
 
 HUB_ORG = os.environ.get('HUB_ORG_DH', 'pranshu@softude.com')
@@ -13,6 +12,7 @@ print('KEY IS')
 print(os.environ['JWT_KEY_FILE'])  # Use the environment variable directly
 
 toolbelt = r'C:\\Program Files\\sfdx\\bin\\sfdx.cmd'
+
 
 # Checkout source
 subprocess.run(['git', 'checkout', 'HEAD'])
@@ -40,20 +40,23 @@ with open(os.environ['JWT_KEY_FILE'], 'rb') as jwt_key_file:
 
     print(rc_auth.stdout)
 
-    # Deploy source
+    # Specify the path to package.xml directly
+    package_xml_path = 'manifest/package.xml'
+
+    # Deploy source with manifest
     cmd_deploy = [
         toolbelt,
         'force:source:deploy',
+        '--manifest', package_xml_path,
         '-u',
         HUB_ORG
     ]
-
 
     # Check if the OS is Unix-like
     if os.name == 'posix':
         rmsg = subprocess.run(cmd_deploy, capture_output=True, text=True)
     else:
-    # For Windows, use shell=True
+        # For Windows, use shell=True
         rmsg = subprocess.run(cmd_deploy, capture_output=True, text=True, shell=True)
 
 print(f"For deployment: {rmsg}")
