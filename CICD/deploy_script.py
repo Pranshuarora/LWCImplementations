@@ -44,7 +44,7 @@ with open(os.environ['JWT_KEY_FILE'], 'rb') as jwt_key_file:
     cmd_deploy = [
         toolbelt,
         'force:source:deploy',
-        f'--target-username {HUB_ORG}'
+        f'-u {HUB_ORG}'  # No need for --manifest flag if deploying using manifest
     ]
 
     # Check if the OS is Unix-like
