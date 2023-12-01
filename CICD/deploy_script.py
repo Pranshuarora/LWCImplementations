@@ -44,14 +44,16 @@ with open(os.environ['JWT_KEY_FILE'], 'rb') as jwt_key_file:
     cmd_deploy = [
         toolbelt,
         'force:source:deploy',
-        f'-u {HUB_ORG}'  # No need for --manifest flag if deploying using manifest
+        '-u',
+        HUB_ORG
     ]
 
+
     # Check if the OS is Unix-like
-    if os.name == 'posix':  
+    if os.name == 'posix':
         rmsg = subprocess.run(cmd_deploy, capture_output=True, text=True)
     else:
-        # For Windows, use shell=True
+    # For Windows, use shell=True
         rmsg = subprocess.run(cmd_deploy, capture_output=True, text=True, shell=True)
 
 print(f"For deployment: {rmsg}")
