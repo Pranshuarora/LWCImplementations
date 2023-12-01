@@ -45,12 +45,12 @@ with open(os.environ['JWT_KEY_FILE'], 'rb') as jwt_key_file:
 
     # Deploy source with manifest
     cmd_deploy = [
-        toolbelt,
-        'force:source:deploy',
-        '--manifest', package_xml_path,
-        '-u',
-        HUB_ORG
+    toolbelt,
+    'force:source:deploy',
+    '--manifest', package_xml_path,
+    '--target-org', HUB_ORG
     ]
+
 
     # Check if the OS is Unix-like
     if os.name == 'posix':
