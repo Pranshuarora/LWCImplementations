@@ -69,9 +69,13 @@ SFDC_USERNAME = None  # You can set this variable if needed
 
 HUB_ORG = os.environ.get('HUB_ORG_DH')
 SFDC_HOST = os.environ.get('SFDC_HOST_DH')
-CONNECTED_APP_CONSUMER_KEY = os.environ.get('CONNECTED_APP_CONSUMER_KEY_DH', '3MVG9n_HvETGhr3AcyQqIh_BguNyokLEWUIDMSK4rR0teNcX8eLMO4IIkPdclTQCEakC5TdBk0rSzawgALc4o')
+CONNECTED_APP_CONSUMER_KEY = os.environ.get('CONNECTED_APP_CONSUMER_KEY_DH')
+
 
 print('KEY IS')
+print(HUB_ORG)
+print(SFDC_HOST)
+print(CONNECTED_APP_CONSUMER_KEY)
 print(os.environ['JWT_KEY_FILE'])  # Use the environment variable directly
 
 toolbelt = r'C:\\Program Files\\sfdx\\bin\\sfdx.cmd'
