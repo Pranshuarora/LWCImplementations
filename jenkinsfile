@@ -33,7 +33,7 @@
                             error('Python is not configured in Jenkins. Please configure it using the Python plugin.')
                         }
                         
-                        // Execute your Python script using the Python tool and withCredentials
+                        // Execute your Python script using the Python tool and withCredentials (handle sensitive information securely)
                         withCredentials([file(credentialsId: '49d3f764-e529-4ac4-9b5a-ca06a3ec9caf', variable: 'JWT_KEY_FILE')]) {
                             def result = bat(script: "python CICD\\deploy_script.py ${env.JWT_KEY_FILE}", returnStatus: true)
                             

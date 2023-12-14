@@ -1,0 +1,8 @@
+<!-- flexipage:availableForAllPageTypes  = means it is addressable to all pages -->
+<aura:component implements="flexipage:availableForAllPageTypes, lightning:isUrlAddressable" access="global">
+<aura:attribute type="String" name="id"/>
+<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+<div class="slds-card">
+    <div>I am coming from LWC navigation state {v.id}</div>
+</div>
+</aura:component>	

@@ -65,7 +65,7 @@ import os
 import subprocess
 
 BUILD_NUMBER = os.environ.get('BUILD_NUMBER', 'default_build_number')
-SFDC_USERNAME = None  # You can set this variable if needed
+SFDC_USERNAME = None  # set this variable if needed
 
 HUB_ORG = os.environ.get('HUB_ORG_DH')
 SFDC_HOST = os.environ.get('SFDC_HOST_DH')
@@ -76,7 +76,7 @@ print('KEY IS')
 print(HUB_ORG)
 print(SFDC_HOST)
 print(CONNECTED_APP_CONSUMER_KEY)
-print(os.environ['JWT_KEY_FILE'])  # Use the environment variable directly
+print(os.environ['JWT_KEY_FILE'])  # environment variable directly
 
 toolbelt = r'C:\\Program Files\\sfdx\\bin\\sfdx.cmd'
 
@@ -117,7 +117,6 @@ with open(os.environ['JWT_KEY_FILE'], 'rb') as jwt_key_file:
     '--manifest', package_xml_path,
     '--target-org', HUB_ORG
     ]
-
 
     # Check if the OS is Unix-like
     if os.name == 'posix':
