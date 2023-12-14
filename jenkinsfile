@@ -1,50 +1,130 @@
-    pipeline {
-        agent any
+    // pipeline {
+    //     agent any
 
-        tools {
-            // Define the Git tool
-            git 'Default'
+    //     tools {
+    //         // Define the Git tool
+    //         git 'Default'
+    //     }
+
+    //     stages {
+    //         stage('Checkout') {
+    //             steps {
+    //                 script {
+    //                     checkout scm
+    //                 }
+    //             }
+    //         }
+
+    //         stage('Version') {
+    //             steps {
+    //                 script {
+    //                     bat 'python --version'
+    //                 }
+    //             }
+    //         }
+
+    //         stage('Deploy Code') {
+    //             steps {
+    //                 script {
+    //                     // Use the Python tool installed in Jenkins
+    //                     def pythonScript = bat(script: 'python -V', returnStatus: true)
+
+    //                     if (pythonScript != 0) {
+    //                         error('Python is not configured in Jenkins. Please configure it using the Python plugin.')
+    //                     }
+                        
+    //                     // Execute your Python script using the Python tool and withCredentials (handle sensitive information securely)
+    //                     withCredentials([file(credentialsId: '49d3f764-e529-4ac4-9b5a-ca06a3ec9caf', variable: 'JWT_KEY_FILE')]) {
+    //                         def result = bat(script: "python CICD\\deploy_script.py ${env.JWT_KEY_FILE}", returnStatus: true)
+                            
+    //                         if (result != 0) {
+    //                             echo "Failed to deploy code. Exit code: ${result}"
+    //                             currentBuild.result = 'FAILURE'
+    //                             error("Failed to deploy code. Exit code: ${result}")
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+pipeline {
+    agent any
+
+    tools {
+        // Define the Git tool
+        git 'Default'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
         }
 
-        stages {
-            stage('Checkout') {
-                steps {
-                    script {
-                        checkout scm
-                    }
+        stage('Version') {
+            steps {
+                script {
+                    // Print Python version
+                    bat 'python --version'
                 }
             }
+        }
 
-            stage('Version') {
-                steps {
-                    script {
-                        bat 'python --version'
-                    }
-                }
-            }
-
-            stage('Deploy Code') {
-                steps {
-                    script {
-                        // Use the Python tool installed in Jenkins
-                        def pythonScript = bat(script: 'python -V', returnStatus: true)
-
-                        if (pythonScript != 0) {
-                            error('Python is not configured in Jenkins. Please configure it using the Python plugin.')
+        stage('Deploy Code') {
+            steps {
+                script {
+                    // Execute your Python script using the Python tool
+                    // Use withCredentials for sensitive information
+                    withCredentials([file(credentialsId: '49d3f764-e529-4ac4-9b5a-ca06a3ec9caf', variable: 'JWT_KEY_FILE')]) {
+                        def deployScript = 'CICD/deploy_script.py'
+                        
+                        // Check if the deploy script exists
+                        if (!fileExists(deployScript)) {
+                            error "Deploy script not found: ${deployScript}"
                         }
                         
-                        // Execute your Python script using the Python tool and withCredentials (handle sensitive information securely)
-                        withCredentials([file(credentialsId: '49d3f764-e529-4ac4-9b5a-ca06a3ec9caf', variable: 'JWT_KEY_FILE')]) {
-                            def result = bat(script: "python CICD\\deploy_script.py ${env.JWT_KEY_FILE}", returnStatus: true)
-                            
-                            if (result != 0) {
-                                echo "Failed to deploy code. Exit code: ${result}"
-                                currentBuild.result = 'FAILURE'
-                                error("Failed to deploy code. Exit code: ${result}")
-                            }
+                        // Check if there are changes since the last successful build
+                        def lastSuccessfulCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                        def currentCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+
+                        if (lastSuccessfulCommit == currentCommit) {
+                            echo "No changes detected. Skipping deployment."
+                            currentBuild.result = 'SUCCESS'
+                            return
+                        }
+                        
+                        def result = bat(script: "python ${deployScript} ${env.JWT_KEY_FILE}", returnStatus: true)
+                        
+                        if (result != 0) {
+                            echo "Failed to deploy code. Exit code: ${result}"
+                            currentBuild.result = 'FAILURE'
+                            error "Failed to deploy code. Exit code: ${result}"
                         }
                     }
                 }
             }
         }
     }
+
+    post {
+        always {
+            // Clean up sensitive information
+            deleteDir()
+        }
+    }
+
+    environment {
+        // Define any environment variables needed
+        PATH = "C:\\Python39;${env.PATH}"
+    }
+
+    // Function to check if a file exists
+    def fileExists(filePath) {
+        return file(filePath).exists()
+    }
+}
