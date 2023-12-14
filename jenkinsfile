@@ -77,7 +77,7 @@ pipeline {
                     withCredentials([file(credentialsId: '49d3f764-e529-4ac4-9b5a-ca06a3ec9caf', variable: 'JWT_KEY_FILE')]) {
                         def deployScript = 'CICD/deploy_script.py'
 
-                        if (!fileExists(deployScript)) {
+                        if (!file(deployScript).exists()) {
                             error "Deploy script not found: ${deployScript}"
                         }
 
@@ -111,9 +111,5 @@ pipeline {
 
     environment {
         PATH = "C:\\Python39;${env.PATH}"
-    }
-
-    def fileExists(filePath) {
-        return file(filePath).exists()
     }
 }
